@@ -1,0 +1,17 @@
+package com.bridgelabz.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import com.bridgelabz.service.SheetsAndJava;
+
+@Controller
+public class GoogleSheetController 
+{
+	@GetMapping("/read")
+	public void sheetReader() throws Exception
+	{
+		System.out.println("Hello");
+		
+	}
+}

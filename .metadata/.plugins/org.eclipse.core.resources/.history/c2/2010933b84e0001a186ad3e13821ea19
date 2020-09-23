@@ -1,0 +1,12 @@
+package com.bridgelabz.service;
+
+import org.springframework.stereotype.Service;
+
+@Service
+public class EmailService 
+{
+	public void getCalled()
+	{
+		System.out.println("Email serive got called");
+	}
+}

@@ -1,0 +1,28 @@
+package com.bridgelabz.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import com.bridgelabz.service.SheetsAndJava;
+import com.google.api.services.sheets.v4.Sheets;
+import com.google.api.services.sheets.v4.model.ValueRange;
+
+@Controller
+public class GoogleSheetController 
+{
+	private static String SPREADSHEET_ID= "13UCMD0vQqq46ndu52ud9nzcCVNsMG23zkSyBS8uL9XY";
+
+	@GetMapping("/read")
+	public void sheetReader() throws Exception
+	{
+		System.out.println("Hello");
+		SheetsAndJava sheetsAndJava = new SheetsAndJava();
+		Sheets sheetsService = sheetsAndJava.getSheetsService();
+		String range = "congress!A2:F10";
+		
+		ValueRange response = sheetsService.spreadsheets().values()
+								.get(SPREADSHEET_ID, range)
+								.execute();
+		
+	}
+}

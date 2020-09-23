@@ -1,0 +1,48 @@
+package com.bridgelabz.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.bridgelabz.service.EmailService;
+import com.bridgelabz.service.SheetsAndJava;
+import com.google.api.services.sheets.v4.Sheets;
+import com.google.api.services.sheets.v4.model.ValueRange;
+
+@RestController
+public class GoogleSheetController 
+{
+	@Autowired
+	EmailService emailService;
+	String emailId;
+	private static String SPREADSHEET_ID= "1IgqKyHqy12Zu_K9TVkq_yijPtIa94jEil82Y57WziCY";
+
+	@GetMapping("/readSheet")
+	public String sheetReader() throws Exception
+	{
+		SheetsAndJava sheetsAndJava = new SheetsAndJava();
+		Sheets sheetsService = sheetsAndJava.getSheetsService();
+		String range = "A1:A100";
+		System.out.println("Range set"+sheetsService);
+		
+		ValueRange response = sheetsService.spreadsheets().values()
+								.get(SPREADSHEET_ID, range)
+								.execute();
+		List<List<Object>> values = response.getValues();
+		
+		if(values==null || values.isEmpty())
+			return "No Data Found";
+		else
+		{
+			for(List row:values)
+			{
+				System.out.println(row.get(0));
+				emailId = row.get(0).toString();
+				emailService.sendmail(emailId, "Not mentionaed", "I am Very Happy");
+			}
+		}
+		return "Successful";
+	}
+}
